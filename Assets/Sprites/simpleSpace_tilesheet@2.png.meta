@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 128
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -1151,11 +1151,11 @@ TextureImporter:
       simpleSpace_tilesheet@2_27: 1935910812
       simpleSpace_tilesheet@2_2: 670793774
       simpleSpace_tilesheet@2_1: -985509457
-      simpleSpace_tilesheet@2_9: -1080787486
-      simpleSpace_tilesheet@2_38: 1618324880
-      simpleSpace_tilesheet@2_44: -1189406582
       simpleSpace_tilesheet@2_24: -419646851
+      simpleSpace_tilesheet@2_38: 1618324880
+      simpleSpace_tilesheet@2_9: -1080787486
       simpleSpace_tilesheet@2_39: -1072703980
+      simpleSpace_tilesheet@2_44: -1189406582
       simpleSpace_tilesheet@2_16: 1305138057
       simpleSpace_tilesheet@2_28: 2081809246
       simpleSpace_tilesheet@2_21: -858685250
