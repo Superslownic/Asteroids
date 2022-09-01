@@ -25,7 +25,7 @@ namespace Code.Core.Unit.Player
       _model.Transform.Rotation.OnChanged -= UpdateRotation;
     }
 
-    private void UpdatePosition(Vector3 value)
+    private void UpdatePosition(Vector2 value)
     {
       _view.SetPosition(value);
     }

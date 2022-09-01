@@ -4,12 +4,12 @@ namespace Code.Core.Unit
 {
   public class UnitTransform
   {
-    public Observable<Vector3> Position { get; } = new Observable<Vector3>();
+    public Observable<Vector2> Position { get; } = new Observable<Vector2>();
     public Observable<Quaternion> Rotation { get; } = new Observable<Quaternion>();
 
-    public Vector3 Forward => Rotation.Value * Vector3.up;
+    public Vector2 Forward => Rotation.Value * Vector2.up;
 
-    public UnitTransform(Vector3 position, Quaternion rotation)
+    public UnitTransform(Vector2 position, Quaternion rotation)
     {
       Position.Value = position;
       Rotation.Value = rotation;

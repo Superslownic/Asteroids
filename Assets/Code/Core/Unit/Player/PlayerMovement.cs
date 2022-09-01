@@ -9,7 +9,7 @@ namespace Code.Core.Unit.Player
     private readonly PlayerInput _input;
     private readonly PlayerConfig _config;
 
-    public Vector3 Velocity { get; private set; }
+    public Vector2 Velocity { get; private set; }
 
     public PlayerMovement(UnitTransform transform, PlayerInput input, PlayerConfig config)
     {
