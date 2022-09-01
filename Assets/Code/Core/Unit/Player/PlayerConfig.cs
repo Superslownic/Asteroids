@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Code
+namespace Code.Core.Unit.Player
 {
   [CreateAssetMenu]
   public class PlayerConfig : ScriptableObject

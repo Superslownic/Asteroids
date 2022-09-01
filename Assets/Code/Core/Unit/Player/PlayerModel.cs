@@ -1,4 +1,4 @@
-namespace Code
+namespace Code.Core.Unit.Player
 {
   public class PlayerModel
   {

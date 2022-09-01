@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Code.Core.MonoEventProviders;
+using UnityEngine;
 
-namespace Code
+namespace Code.Core.Unit.Player
 {
   public class PlayerMovement : IUpdateListener
   {

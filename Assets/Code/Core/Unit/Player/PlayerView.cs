@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Code
+namespace Code.Core.Unit.Player
 {
   public class PlayerView : MonoBehaviour
   {

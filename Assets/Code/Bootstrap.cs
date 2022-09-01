@@ -1,4 +1,7 @@
-﻿using Unity.Mathematics;
+﻿using Code.Core.MonoEventProviders;
+using Code.Core.Unit;
+using Code.Core.Unit.Player;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Code
