@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Player_Config
   m_EditorClassIdentifier: 
   <Prefab>k__BackingField: {fileID: 927512429179993888, guid: d2607fa8c2ee93f47a31a8d1b6106719, type: 3}
-  <Acceleration>k__BackingField: 0.01
-  <Deceleration>k__BackingField: 0.1
-  <MaxSpeed>k__BackingField: 5
+  <Acceleration>k__BackingField: 10
+  <Deceleration>k__BackingField: 5
+  <MaxSpeed>k__BackingField: 7
   <RotationSpeed>k__BackingField: 10
