@@ -26,7 +26,8 @@ namespace Code.Core.MonoEventProviders
 
     private void Update()
     {
-      _listeners.ForEach(x => x.Update(Time.deltaTime));
+      for (int i = 0; i < _listeners.Count; i++)
+        _listeners[i].Update(Time.deltaTime);
     }
   }
 }

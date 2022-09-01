@@ -26,7 +26,7 @@ namespace Code.Core.DependencyInjection
       if(_parent != null)
         return _parent.Resolve<T>();
       
-      throw new InvalidOperationException("Service not found");
+      throw new InvalidOperationException($"Service {typeof(T)} not found");
     }
   }
 }

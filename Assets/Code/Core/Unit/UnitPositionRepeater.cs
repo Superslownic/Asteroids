@@ -6,25 +6,23 @@ namespace Code.Core.Unit
   public class UnitPositionRepeater : IUpdateListener
   {
     private readonly UnitTransform _transform;
-    private readonly FloatRange _horizontal;
-    private readonly FloatRange _vertical;
+    private readonly ScreenLimits _screenLimits;
 
-    public UnitPositionRepeater(UnitTransform transform, FloatRange horizontal, FloatRange vertical)
+    public UnitPositionRepeater(UnitTransform transform, ScreenLimits screenLimits)
     {
-      _horizontal = horizontal;
-      _vertical = vertical;
       _transform = transform;
+      _screenLimits = screenLimits;
     }
 
     public void Update(float deltaTime)
     {
       Vector3 position = _transform.Position.Value;
       
-      if (position.x < _horizontal.Min) position.x = _horizontal.Max;
-      if (position.x > _horizontal.Max) position.x = _horizontal.Min;
+      if (position.x < _screenLimits.Horizontal.Min) position.x = _screenLimits.Horizontal.Max;
+      if (position.x > _screenLimits.Horizontal.Max) position.x = _screenLimits.Horizontal.Min;
       
-      if (position.y < _vertical.Min) position.y = _vertical.Max;
-      if (position.y > _vertical.Max) position.y = _vertical.Min;
+      if (position.y < _screenLimits.Vertical.Min) position.y = _screenLimits.Vertical.Max;
+      if (position.y > _screenLimits.Vertical.Max) position.y = _screenLimits.Vertical.Min;
       
       _transform.Position.Value = position;
     }

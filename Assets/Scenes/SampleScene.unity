@@ -236,7 +236,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c05c7f7864b40ea888037fe3615c25c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _camera: {fileID: 519420031}
   _playerConfig: {fileID: 11400000, guid: 86ba644d48b734d4a91639cfcae3f103, type: 2}
+  _asteroidsSpawnerConfig: {fileID: 11400000, guid: c1744bcbf6f0c6541934aa6d3a15f3ff, type: 2}
 --- !u!4 &1831953381
 Transform:
   m_ObjectHideFlags: 0

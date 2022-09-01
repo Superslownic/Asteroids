@@ -1,5 +1,8 @@
-﻿namespace Code.Core.Unit
+﻿using System;
+
+namespace Code.Core.Unit
 {
+  [Serializable]
   public struct FloatRange
   {
     public float Min;

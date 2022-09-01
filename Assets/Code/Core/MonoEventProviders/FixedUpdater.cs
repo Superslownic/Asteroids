@@ -26,7 +26,8 @@ namespace Code.Core.MonoEventProviders
 
     private void FixedUpdate()
     {
-      _listeners.ForEach(x => x.FixedUpdate(Time.fixedDeltaTime));
+      for (int i = 0; i < _listeners.Count; i++)
+        _listeners[i].FixedUpdate(Time.fixedDeltaTime);
     }
   }
 }
