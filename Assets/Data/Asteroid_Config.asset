@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Asteroid_Config
   m_EditorClassIdentifier: 
   <Prefab>k__BackingField: {fileID: 5645422721374629101, guid: 5ef43506011ec5146b08e74c6e522034, type: 3}
-  <MovementSpeed>k__BackingField: 5
+  <MovementSpeed>k__BackingField: 1
