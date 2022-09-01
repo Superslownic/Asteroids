@@ -1,4 +1,5 @@
-﻿using Code.Core.MonoEventProviders;
+﻿using Code.Core.DependencyInjection;
+using Code.Core.MonoEventProviders;
 using Code.Core.Unit;
 using Code.Core.Unit.Player;
 using UnityEngine;
@@ -11,22 +12,17 @@ namespace Code
     
     private void Awake()
     {
+      var diContainer = new DiContainer();
+      
       var updater = gameObject.AddComponent<Updater>();
       var fixedUpdater = gameObject.AddComponent<FixedUpdater>();
-
-      var transform = new UnitTransform(Vector3.zero, Quaternion.identity);
-      var input = new PlayerInput();
-      var movement = new PlayerMovement(transform, input, _playerConfig);
-      var repeater = new UnitPositionRepeater(transform, new FloatRange(-5, 5), new FloatRange(-5, 5));
-      var view = Instantiate(_playerConfig.Prefab);
-      var model = new PlayerModel(transform);
-      var controller = new PlayerController(model, view);
+      var unitFactory = new UnitFactory(diContainer);
       
-      updater.AddListener(input);
-      updater.AddListener(movement);
-      updater.AddListener(repeater);
+      diContainer.Register(updater);
+      diContainer.Register(fixedUpdater);
+      diContainer.Register(unitFactory);
       
-      controller.Enable();
+      unitFactory.CreatePlayer(_playerConfig);
     }
   }
 }
