@@ -22,16 +22,18 @@ namespace Code
       var fixedUpdater = gameObject.AddComponent<FixedUpdater>();
       var screenLimits = new ScreenLimits(_camera);
       var unitFactory = new UnitFactory(diContainer);
-      var asteroidsSpawner = new EnemySpawner(unitFactory, _asteroidsSpawnerConfig, screenLimits);
       
       diContainer.Register(updater);
       diContainer.Register(fixedUpdater);
       diContainer.Register(screenLimits);
       diContainer.Register(unitFactory);
       
-      updater.AddListener(asteroidsSpawner);
+      var player = unitFactory.CreatePlayer(_playerConfig);
+      var asteroidsSpawner = new EnemySpawner(unitFactory, _asteroidsSpawnerConfig, screenLimits);
       
-      unitFactory.CreatePlayer(_playerConfig);
+      diContainer.Register(player);
+      
+      updater.AddListener(asteroidsSpawner);
     }
   }
 }

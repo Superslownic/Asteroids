@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Code.Unit.Enemies.Asteroids
 {
-  public class AsteroidMovement : IUpdateListener
+  public class AsteroidMovement
   {
     private readonly UnitTransform _transform;
     private readonly AsteroidConfig _config;

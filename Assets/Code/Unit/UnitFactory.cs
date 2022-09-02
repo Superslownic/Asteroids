@@ -18,27 +18,37 @@ namespace Code.Unit
       _asteroidsParent = new GameObject("Asteroids").transform;
     }
 
-    public void CreatePlayer(PlayerConfig config)
+    public PlayerController CreatePlayer(PlayerConfig config)
     {
       var updater = _diContainer.Resolve<Updater>();
       var screenLimits = _diContainer.Resolve<ScreenLimits>();
 
-      var input = new PlayerInput();
       var transform = new UnitTransform(Vector3.zero, Quaternion.identity);
-      var movement = new PlayerMovement(transform, input, config);
-      var repeater = new UnitPositionRepeater(transform, screenLimits);
       var view = Object.Instantiate(config.Prefab);
       var model = new PlayerModel(transform);
-      var controller = new PlayerController(model, view);
-      
-      updater.AddListener(input);
-      updater.AddListener(movement);
-      updater.AddListener(repeater);
-      
-      controller.Enable();
+      var input = new PlayerInput();
+      var movement = new PlayerMovement(transform, input, config);
+      var positionRepeater = new UnitPositionRepeater(transform, screenLimits);
+      var collisionDetector = new CollisionDetector(view.Collider, new ContactFilter2D().NoFilter(), 1);
+
+      var controller = new PlayerController(model, input, movement, positionRepeater, collisionDetector, view);
+
+      updater.AddListener(controller);
+      model.IsAlive.OnChanged += UnsubscribeOnDestroy;
+
+      void UnsubscribeOnDestroy(bool isAlive)
+      {
+        if(isAlive)
+          return;
+        
+        model.IsAlive.OnChanged -= UnsubscribeOnDestroy;
+        updater.RemoveListener(controller);
+      }
+
+      return controller;
     }
 
-    public void CreateAsteroid(AsteroidConfig config, Vector2 position, Vector2 direction)
+    public AsteroidController CreateAsteroid(AsteroidConfig config, Vector2 position, Vector2 direction)
     {
       var updater = _diContainer.Resolve<Updater>();
       var screenLimits = _diContainer.Resolve<ScreenLimits>();
@@ -48,12 +58,21 @@ namespace Code.Unit
       var repeater = new UnitPositionRepeater(transform, screenLimits);
       var view = Object.Instantiate(config.Prefab, position, Quaternion.identity, _asteroidsParent);
       var model = new AsteroidModel(transform);
-      var controller = new AsteroidController(model, view);
+      var controller = new AsteroidController(model, movement, repeater, view);
       
-      updater.AddListener(movement);
-      updater.AddListener(repeater);
-      
-      controller.Enable();
+      updater.AddListener(controller);
+      model.IsAlive.OnChanged += UnsubscribeOnDestroy;
+
+      void UnsubscribeOnDestroy(bool isAlive)
+      {
+        if(isAlive)
+          return;
+        
+        model.IsAlive.OnChanged -= UnsubscribeOnDestroy;
+        updater.RemoveListener(controller);
+      }
+
+      return controller;
     }
   }
 }

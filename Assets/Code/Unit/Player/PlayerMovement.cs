@@ -1,9 +1,8 @@
-﻿using Code.MonoEventProviders;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Code.Unit.Player
 {
-  public class PlayerMovement : IUpdateListener
+  public class PlayerMovement
   {
     private readonly UnitTransform _transform;
     private readonly PlayerInput _input;

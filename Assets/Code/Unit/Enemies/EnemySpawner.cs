@@ -37,9 +37,9 @@ namespace Code.Unit.Enemies
         y = Mathf.Lerp(_screenLimits.Vertical.Min, _screenLimits.Vertical.Max, vertical == false ? rounded : random)
       };
       
-      Vector2 direction = Random.onUnitSphere.normalized;
+      Vector2 direction = Random.onUnitSphere;
 
-      _unitFactory.CreateAsteroid(_config.AsteroidConfig, position, direction);
+      _unitFactory.CreateAsteroid(_config.AsteroidConfig, position, direction.normalized);
       
       RunTimer();
     }

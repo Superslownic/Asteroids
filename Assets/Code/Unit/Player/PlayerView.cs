@@ -4,7 +4,9 @@ namespace Code.Unit.Player
 {
   public class PlayerView : MonoBehaviour
   {
-    public void SetPosition(Vector3 value)
+    [field: SerializeField] public Collider2D Collider { get; private set; }
+
+    public void SetPosition(Vector2 value)
     {
       transform.position = value;
     }

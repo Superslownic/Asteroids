@@ -1,14 +1,13 @@
-﻿using Code.MonoEventProviders;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Code.Unit.Player
 {
-  public class PlayerInput : IUpdateListener
+  public class PlayerInput
   {
     public float Vertical { get; private set; }
     public float Horizontal { get; private set; }
 
-    public void Update(float deltaTime)
+    public void Update()
     {
       Vertical = Input.GetAxisRaw("Vertical");
       Horizontal = Input.GetAxisRaw("Horizontal");

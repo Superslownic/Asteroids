@@ -1,38 +1,50 @@
-﻿using UnityEngine;
+﻿using Code.MonoEventProviders;
+using UnityEngine;
 
 namespace Code.Unit.Player
 {
-  public class PlayerController
+  public class PlayerController : IUpdateListener
   {
     private readonly PlayerModel _model;
     private readonly PlayerView _view;
+    private readonly PlayerInput _input;
+    private readonly PlayerMovement _movement;
+    private readonly UnitPositionRepeater _positionRepeater;
+    private readonly CollisionDetector _collisionDetector;
 
-    public PlayerController(PlayerModel model, PlayerView view)
+    public PlayerController(PlayerModel model, PlayerInput input, PlayerMovement movement,
+      UnitPositionRepeater positionRepeater,CollisionDetector collisionDetector, PlayerView view)
     {
       _model = model;
+      _input = input;
+      _movement = movement;
+      _positionRepeater = positionRepeater;
+      _collisionDetector = collisionDetector;
       _view = view;
     }
 
-    public void Enable()
+    public void Update(float deltaTime)
     {
-      _model.Transform.Position.OnChanged += UpdatePosition;
-      _model.Transform.Rotation.OnChanged += UpdateRotation;
-    }
-    
-    public void Disable()
-    {
-      _model.Transform.Position.OnChanged -= UpdatePosition;
-      _model.Transform.Rotation.OnChanged -= UpdateRotation;
+      Move(deltaTime);
+      CheckCollisions();
     }
 
-    private void UpdatePosition(Vector2 value)
+    private void Move(float deltaTime)
     {
-      _view.SetPosition(value);
+      _input.Update();
+      _movement.Update(deltaTime);
+      _positionRepeater.Update();
+      _view.SetPosition(_model.Transform.Position.Value);
+      _view.SetRotation(_model.Transform.Rotation.Value);
     }
-    
-    private void UpdateRotation(Quaternion value)
+
+    private void CheckCollisions()
     {
-      _view.SetRotation(value);
+      if (_collisionDetector.Update() <= 0)
+        return;
+      
+      _model.IsAlive.Value = false;
+      Object.Destroy(_view.gameObject);
     }
   }
 }

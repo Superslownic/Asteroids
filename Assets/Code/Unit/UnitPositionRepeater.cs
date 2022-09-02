@@ -1,10 +1,9 @@
 ﻿using Code.Helpers;
-using Code.MonoEventProviders;
 using UnityEngine;
 
 namespace Code.Unit
 {
-  public class UnitPositionRepeater : IUpdateListener
+  public class UnitPositionRepeater
   {
     private readonly UnitTransform _transform;
     private readonly ScreenLimits _screenLimits;
@@ -15,7 +14,7 @@ namespace Code.Unit
       _screenLimits = screenLimits;
     }
 
-    public void Update(float deltaTime)
+    public void Update()
     {
       Vector3 position = _transform.Position.Value;
       
