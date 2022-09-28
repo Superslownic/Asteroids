@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fab0c578397b42bc8ecfda2737ca8b92, type: 3}
-  m_Name: Asteroids Spawner Config
+  m_Name: Enemy Spawner Config
   m_EditorClassIdentifier: 
   <Cooldown>k__BackingField:
     Min: 1
     Max: 3
   <BaseAsteroidConfig>k__BackingField: {fileID: 11400000, guid: d7c7be5f7c89ff0498d1bae06c51a64a, type: 2}
+  <UFOConfig>k__BackingField: {fileID: 11400000, guid: 59478b23e8707eb4b91c37dc1aadb179, type: 2}
+  <AsteroidSpawnProbability>k__BackingField: 70

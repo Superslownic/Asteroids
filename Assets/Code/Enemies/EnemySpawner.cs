@@ -5,24 +5,27 @@ using Random = UnityEngine.Random;
 
 namespace Code.Enemies
 {
-  public class AsteroidSpawner : IUpdateListener
+  public class EnemySpawner : IUpdateListener
   {
-    private readonly AsteroidSpawnerData _data;
+    private readonly EnemySpawnerData _data;
     private readonly AsteroidsCollection _asteroidsCollection;
-    private readonly AsteroidFactory _asteroidFactory;
+    private readonly EnemyFactory _enemyFactory;
     private readonly ScreenLimits _screenLimits;
 
-    public AsteroidSpawner(AsteroidSpawnerData data, AsteroidsCollection asteroidsCollection, AsteroidFactory asteroidFactory, ScreenLimits screenLimits)
+    public EnemySpawner(EnemySpawnerData data, AsteroidsCollection asteroidsCollection, EnemyFactory enemyFactory, ScreenLimits screenLimits)
     {
       _data = data;
       _asteroidsCollection = asteroidsCollection;
-      _asteroidFactory = asteroidFactory;
+      _enemyFactory = enemyFactory;
       _screenLimits = screenLimits;
       RunCooldown();
     }
 
-    private static Vector2 RandomDirection =>
+    private Vector2 RandomDirection =>
       Random.insideUnitCircle.normalized;
+    
+    private bool ShouldSpawnAsteroid =>
+      Random.Range(0, 100) < _data.AsteroidSpawnProbability;
 
     public void Update(float deltaTime)
     {
@@ -39,7 +42,9 @@ namespace Code.Enemies
         y = Mathf.Lerp(_screenLimits.Vertical.Min, _screenLimits.Vertical.Max, onTop == false ? rounded : delta)
       };
 
-      SpawnAsteroid(_data.BaseAsteroidConfig, position);
+      if (ShouldSpawnAsteroid) SpawnAsteroid(_data.BaseAsteroidConfig, position);
+      else SpawnUFO(_data.UFOConfig, position);
+      
       RunCooldown();
     }
 
@@ -50,8 +55,14 @@ namespace Code.Enemies
 
     private void SpawnAsteroid(AsteroidConfig config, Vector2 position)
     {
-      var asteroid = _asteroidFactory.Create(config, position, RandomDirection);
+      var asteroid = _enemyFactory.CreateAsteroid(config, position, RandomDirection);
       asteroid.OnDestroy += HandleAsteroidDestroy;
+    }
+    
+    private void SpawnUFO(UFOConfig config, Vector2 position)
+    {
+      var asteroid = _enemyFactory.CreateUFO(config, position);
+      asteroid.OnDestroy += HandleUFODestroy;
     }
 
     private void HandleAsteroidDestroy(Asteroid asteroid)
@@ -59,13 +70,21 @@ namespace Code.Enemies
       asteroid.OnDestroy -= HandleAsteroidDestroy;
       asteroid.Disable();
       
-      _asteroidFactory.Recycle(asteroid);
+      _enemyFactory.Recycle(asteroid);
       
       if(_asteroidsCollection.TryGetFragmentConfig(asteroid.Type, out AsteroidConfig fragmentConfig) == false)
         return;
       
       for (int i = 0; i < asteroid.FragmentCount; i++)
         SpawnAsteroid(fragmentConfig, asteroid.Position);
+    }
+    
+    private void HandleUFODestroy(UFO ufo)
+    {
+      ufo.OnDestroy -= HandleUFODestroy;
+      ufo.Disable();
+      
+      _enemyFactory.Recycle(ufo);
     }
   }
 }

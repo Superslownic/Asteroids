@@ -15,7 +15,7 @@ namespace Code
     [SerializeField] private Camera _camera;
     [SerializeField] private ShipConfig _shipConfig;
     [SerializeField] private AsteroidsCollection _asteroidsCollection;
-    [SerializeField] private AsteroidSpawnerConfig _asteroidsSpawnerConfig;
+    [SerializeField] private EnemySpawnerConfig _enemySpawnerConfig;
     [SerializeField] private ShipInfoView _shipInfoView;
     [SerializeField] private LaserGunAmmunitionView _laserGunAmmunitionView;
 
@@ -32,8 +32,9 @@ namespace Code
       
       var timerFactory = new TimerFactory(this);
       var playerFactory = new ShipFactory(diContainer);
-      var asteroidFactory = new AsteroidFactory(diContainer);
+      var asteroidFactory = new EnemyFactory(diContainer);
       var projectileParent = new GameObject("Projectiles").transform;
+      var enemyParent = new GameObject("Enemies").transform;
       var bulletFactory = new BulletFactory(diContainer, projectileParent);
       var laserFactory = new LaserFactory(diContainer, projectileParent);
       
@@ -41,6 +42,7 @@ namespace Code
       diContainer.Register(fixedUpdater);
       diContainer.Register(input);
       diContainer.Register(screenLimits);
+      diContainer.Register(enemyParent, DependencyKey.EnemyParent);
       diContainer.Register(timerFactory);
       diContainer.Register(asteroidFactory);
       diContainer.Register(bulletFactory);
@@ -50,10 +52,11 @@ namespace Code
       
       diContainer.Register(ship);
       
-      var asteroidSpawnerData = new AsteroidSpawnerData(_asteroidsSpawnerConfig.Cooldown, _asteroidsSpawnerConfig.BaseAsteroidConfig);
-      var asteroidSpawner = new AsteroidSpawner(asteroidSpawnerData, _asteroidsCollection, asteroidFactory, screenLimits);
+      var enemySpawnerData = new EnemySpawnerData(_enemySpawnerConfig.Cooldown, _enemySpawnerConfig.BaseAsteroidConfig,
+        _enemySpawnerConfig.UFOConfig, _enemySpawnerConfig.AsteroidSpawnProbability);
+      var enemySpawner = new EnemySpawner(enemySpawnerData, _asteroidsCollection, asteroidFactory, screenLimits);
       
-      updater.AddListener(asteroidSpawner);
+      updater.AddListener(enemySpawner);
       
       var shipInfo = new ShipInfo(ship.Data, _shipInfoView);
       shipInfo.Enable();

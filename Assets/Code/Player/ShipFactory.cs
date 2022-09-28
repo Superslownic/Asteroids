@@ -43,6 +43,8 @@ namespace Code.Player
       view.Transformation.Construct(data);
       
       updater.AddListener(ship);
+      
+      _diContainer.Register<ITransformable>(data, DependencyKey.PlayerTransformable);
 
       return ship;
     }
