@@ -260,6 +260,7 @@ GameObject:
   - component: {fileID: 7973485376205250964}
   - component: {fileID: 7973485376205250963}
   - component: {fileID: 7010733789260920810}
+  - component: {fileID: 8404372671502728746}
   m_Layer: 5
   m_Name: LaserAmmunition
   m_TagString: Untagged
@@ -329,6 +330,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &8404372671502728746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7973485376205250965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72fa934332c94f20a9b222e10ed408fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Fill>k__BackingField: {fileID: 7973485376133764047}
+  <Label>k__BackingField: {fileID: 7973485374992511956}
 --- !u!1 &7973485377014123228
 GameObject:
   m_ObjectHideFlags: 0

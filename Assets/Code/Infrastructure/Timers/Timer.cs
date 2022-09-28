@@ -47,7 +47,8 @@ namespace Code.Infrastructure.Timers
         _remainingTime.Value -= Time.deltaTime;
         yield return null;
       }
-      
+
+      _remainingTime.Value = 0;
       callback?.Invoke();
     }
   }

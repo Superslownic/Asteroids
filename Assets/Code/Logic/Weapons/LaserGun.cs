@@ -8,13 +8,14 @@ namespace Code.Logic.Weapons
 {
   public class LaserGun : IWeapon
   {
-    private readonly LaserGunData _data;
+    public readonly LaserGunData Data;
+    
     private readonly LaserFactory _laserFactory;
     private readonly RaycastHit2D[] _buffer;
 
     public LaserGun(LaserGunData data, LaserFactory laserFactory)
     {
-      _data = data;
+      Data = data;
       _laserFactory = laserFactory;
       _buffer = new RaycastHit2D[10];
       RunCooldown();
@@ -22,22 +23,22 @@ namespace Code.Logic.Weapons
     
     public bool TryShoot()
     {
-      if (_data.ShotCount.Value == 0)
+      if (Data.ShotCount.Value == 0)
         return false;
       
-      var laser = _laserFactory.Create(_data.LaserConfig, _data.LaserAnchor);
+      var laser = _laserFactory.Create(Data.LaserConfig, Data.LaserAnchor);
       laser.OnDestroy += HandleLaserDestroy;
 
       int targetCount =
-        Physics2D.RaycastNonAlloc(_data.LaserAnchor.Position.Value, _data.LaserAnchor.Forward() * _data.LaserConfig.Distance, _buffer);
+        Physics2D.RaycastNonAlloc(Data.LaserAnchor.Position.Value, Data.LaserAnchor.Forward() * Data.LaserConfig.Distance, _buffer);
       
       for (int i = 0; i < targetCount; i++)
         if(_buffer[i].transform.TryGetComponent(out IContactHandler contactHandler))
           contactHandler.OnHit();
 
-      _data.ShotCount.Value--;
+      Data.ShotCount.Value--;
       
-      if (_data.CooldownTimer.IsOver)
+      if (Data.CooldownTimer.IsOver)
         RunCooldown();
       
       return true;
@@ -51,14 +52,14 @@ namespace Code.Logic.Weapons
 
     private void RunCooldown()
     {
-      _data.CooldownTimer.Run(_data.CooldownTime, AddLaser);
+      Data.CooldownTimer.Run(Data.CooldownTime, AddLaser);
     }
 
     private void AddLaser()
     {
-      _data.ShotCount.Value++;
+      Data.ShotCount.Value++;
 
-      if (_data.ShotCount.Value < _data.MaxShotCount)
+      if (Data.ShotCount.Value < Data.MaxShotCount)
         RunCooldown();
     }
   }

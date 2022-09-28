@@ -4,7 +4,9 @@ using Code.Infrastructure.DependencyInjection;
 using Code.Infrastructure.MonoEventProviders;
 using Code.Logic.Enemies.Asteroids;
 using Code.Logic.Player;
+using Code.Logic.Weapons;
 using Code.Model;
+using Code.View;
 using UnityEngine;
 
 namespace Code
@@ -15,6 +17,8 @@ namespace Code
     [SerializeField] private ShipConfig _shipConfig;
     [SerializeField] private AsteroidsCollection _asteroidsCollection;
     [SerializeField] private AsteroidSpawnerConfig _asteroidsSpawnerConfig;
+    [SerializeField] private ShipInfoView _shipInfoView;
+    [SerializeField] private LaserGunAmmunitionView _laserGunAmmunitionView;
 
     private void Awake()
     {
@@ -43,14 +47,20 @@ namespace Code
       diContainer.Register(bulletFactory);
       diContainer.Register(laserFactory);
 
-      var player = playerFactory.Create(_shipConfig);
+      var ship = playerFactory.Create(_shipConfig);
       
-      diContainer.Register(player);
+      diContainer.Register(ship);
       
       var asteroidSpawnerData = new AsteroidSpawnerData(_asteroidsSpawnerConfig.Cooldown, _asteroidsSpawnerConfig.BaseAsteroidConfig);
       var asteroidSpawner = new AsteroidSpawner(asteroidSpawnerData, _asteroidsCollection, asteroidFactory, screenLimits);
       
       updater.AddListener(asteroidSpawner);
+      
+      var shipInfo = new ShipInfo(ship.Data, _shipInfoView);
+      shipInfo.Enable();
+      
+      var laserAmmunition = new LaserGunAmmunition(((LaserGun) ship.SecondaryWeapon).Data, _laserGunAmmunitionView);
+      laserAmmunition.Enable();
     }
   }
 }

@@ -11,7 +11,8 @@ namespace Code.Logic.Player
 {
   public class Ship : IUpdateListener
   {
-    private readonly ShipData _data;
+    public readonly ShipData Data;
+    
     private readonly PlayerInput _input;
     private readonly ScreenLimits _screenLimits;
     private readonly ContactTrigger _contactTrigger;
@@ -22,7 +23,7 @@ namespace Code.Logic.Player
 
     public Ship(ShipData data, PlayerInput input, ScreenLimits screenLimits, ContactTrigger contactTrigger, ShipView view)
     {
-      _data = data;
+      Data = data;
       _view = view;
       _input = input;
       _screenLimits = screenLimits;
@@ -30,6 +31,8 @@ namespace Code.Logic.Player
     }
 
     public event Action OnDestroy;
+
+    public IWeapon SecondaryWeapon => _secondaryWeapon;
 
     public void Enable()
     {
@@ -53,17 +56,17 @@ namespace Code.Logic.Player
 
     public void Update(float deltaTime)
     {
-      _data.Rotation.Value *=
-        Quaternion.Euler(0f, 0f, _data.RotationSpeed * -_input.Rotation * deltaTime * Mathf.Rad2Deg);
+      Data.Rotation.Value *=
+        Quaternion.Euler(0f, 0f, Data.RotationSpeed * -_input.Rotation * deltaTime * Mathf.Rad2Deg);
       
-      _data.Velocity.Value += _input.Movement > 0
-        ? _data.Acceleration * deltaTime * _data.Forward()
-        : _data.Deceleration * deltaTime * -_data.Velocity.Value;
+      Data.Velocity.Value += _input.Movement > 0
+        ? Data.Acceleration * deltaTime * Data.Forward()
+        : Data.Deceleration * deltaTime * -Data.Velocity.Value;
 
-      _data.Velocity.Value = Vector3.ClampMagnitude(_data.Velocity.Value, _data.MaxSpeed);
+      Data.Velocity.Value = Vector3.ClampMagnitude(Data.Velocity.Value, Data.MaxSpeed);
       
-      _data.Position.Value += _data.Velocity.Value * deltaTime;
-      _data.Position.Value = _screenLimits.Wrap(_data.Position.Value);
+      Data.Position.Value += Data.Velocity.Value * deltaTime;
+      Data.Position.Value = _screenLimits.Wrap(Data.Position.Value);
       
       if(_contactTrigger.HasContact())
       {
