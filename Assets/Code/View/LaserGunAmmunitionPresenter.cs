@@ -1,6 +1,10 @@
-﻿namespace Code.View
+﻿using Code.Model;
+using TMPro;
+using UnityEngine.UI;
+
+namespace Code.View
 {
-  /*public class LaserGunAmmunitionPresenter
+  public class LaserGunAmmunitionPresenter
   {
     private readonly LaserGunData _laserData;
     private readonly Image _fill;
@@ -26,5 +30,5 @@
     {
       _label.text = $"{shotCount} / {_laserData.MaxShotCount}";
     }
-  }*/
+  }
 }
