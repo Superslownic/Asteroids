@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Laser Config
   m_EditorClassIdentifier: 
   <Prefab>k__BackingField: {fileID: 5031679031911871506, guid: 5fb9da1989f2cb44496acdb14afd3168, type: 3}
-  <DestroyTime>k__BackingField: 0.2
+  <Distance>k__BackingField: 20
+  <DestroyTime>k__BackingField: 0.1

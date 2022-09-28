@@ -37,6 +37,13 @@ namespace Code.Logic.Weapons
     {
       _view.Transformation.SetRotation(value);
     }
+    
+    public void SetDistance(float value)
+    {
+      Vector3 scale = _view.transform.localScale;
+      scale.y = value;
+      _view.transform.localScale = scale;
+    }
 
     public void StartDestroyTimer(float time)
     {

@@ -32,6 +32,7 @@ namespace Code.Factory
 
       laser.SetPosition(anchor.Position.Value);
       laser.SetRotation(anchor.Rotation.Value);
+      laser.SetDistance(config.Distance);
       laser.StartDestroyTimer(config.DestroyTime);
       laser.Enable();
       
