@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using Code.Model;
+using Code.Common;
 using UnityEngine;
 
 namespace Code.Infrastructure.Timers

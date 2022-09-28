@@ -1,12 +1,11 @@
-﻿using Code.Config;
-using Code.Factory;
+﻿using Code.Common;
+using Code.Enemies;
 using Code.Infrastructure.DependencyInjection;
 using Code.Infrastructure.MonoEventProviders;
-using Code.Logic.Enemies.Asteroids;
-using Code.Logic.Player;
-using Code.Logic.Weapons;
-using Code.Model;
-using Code.View;
+using Code.Infrastructure.Timers;
+using Code.Player;
+using Code.UI;
+using Code.Weapons;
 using UnityEngine;
 
 namespace Code
