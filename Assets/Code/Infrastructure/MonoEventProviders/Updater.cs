@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Code.Infrastructure.MonoEventProviders
@@ -11,23 +10,15 @@ namespace Code.Infrastructure.MonoEventProviders
     public void AddListener(params IUpdateListener[] listeners)
     {
       foreach (IUpdateListener listener in listeners)
-      {
-        if(_listeners.Contains(listener))
-          throw new InvalidOperationException();
-      
-        _listeners.Add(listener);
-      }
+        if(_listeners.Contains(listener) == false)
+          _listeners.Add(listener);
     }
     
     public void RemoveListener(params IUpdateListener[] listeners)
     {
       foreach (IUpdateListener listener in listeners)
-      {
-        if(_listeners.Contains(listener) == false)
-          throw new InvalidOperationException();
-      
-        _listeners.Remove(listener);
-      }
+        if(_listeners.Contains(listener))
+          _listeners.Remove(listener);
     }
 
     private void Update()

@@ -21,6 +21,9 @@ namespace Code.Infrastructure.Recycle
 
     public void Return(T instance)
     {
+      if(_freeInstances.Contains(instance))
+        return;
+      
       _freeInstances.Add(instance);
     }
   }

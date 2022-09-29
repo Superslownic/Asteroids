@@ -15,4 +15,4 @@ MonoBehaviour:
   <Prefab>k__BackingField: {fileID: 5152297741722412885, guid: 054903ef36e8b594fa0b25accabd4e00, type: 3}
   <FragmentCount>k__BackingField: 2
   <MovementSpeed>k__BackingField: 1
-  <ContactFilter>k__BackingField: {fileID: 11400000, guid: ca24706cfff3af74fbfe9a430f32bdc3, type: 2}
+  <Points>k__BackingField: 1

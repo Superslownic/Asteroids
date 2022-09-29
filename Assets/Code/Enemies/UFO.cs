@@ -19,6 +19,7 @@ namespace Code.Enemies
     }
 
     public event Action<UFO> OnDestroy;
+    public int Points => _data.Points;
 
     public void Enable()
     {

@@ -15,14 +15,17 @@ namespace Code.Player
     private readonly ScreenLimits _screenLimits;
     private readonly ContactTrigger _contactTrigger;
     private readonly ShipView _view;
-    
+    private readonly Updater _updater;
+
     private IWeapon _primaryWeapon;
     private IWeapon _secondaryWeapon;
 
-    public Ship(ShipData data, PlayerInput input, ScreenLimits screenLimits, ContactTrigger contactTrigger, ShipView view)
+    public Ship(ShipData data, PlayerInput input, ScreenLimits screenLimits, ContactTrigger contactTrigger,
+      ShipView view, Updater updater)
     {
       Data = data;
       _view = view;
+      _updater = updater;
       _input = input;
       _screenLimits = screenLimits;
       _contactTrigger = contactTrigger;
@@ -34,12 +37,29 @@ namespace Code.Player
 
     public void Enable()
     {
+      _updater.AddListener(this);
       _view.Activator.Enable();
     }
     
     public void Disable()
     {
+      _updater.RemoveListener(this);
       _view.Activator.Disable();
+    }
+
+    public void SetPosition(Vector2 value)
+    {
+      Data.Position.Value = value;
+    }
+
+    public void SetVelocity(Vector2 value)
+    {
+      Data.Velocity.Value = value;
+    }
+    
+    public void SetRotation(Quaternion value)
+    {
+      Data.Rotation.Value = value;
     }
 
     public void SetPrimaryWeapon(IWeapon weapon)

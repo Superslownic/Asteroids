@@ -18,6 +18,8 @@ namespace Code
     [SerializeField] private EnemySpawnerConfig _enemySpawnerConfig;
     [SerializeField] private ShipInfoView _shipInfoView;
     [SerializeField] private LaserGunAmmunitionView _laserGunAmmunitionView;
+    [SerializeField] private ScoreView _scoreView;
+    [SerializeField] private GameOverWindowView _gameOverWindowView;
 
     private void Awake()
     {
@@ -48,21 +50,28 @@ namespace Code
       diContainer.Register(bulletFactory);
       diContainer.Register(laserFactory);
 
+      var playerData = new PlayerData();
       var ship = playerFactory.Create(_shipConfig);
       
       diContainer.Register(ship);
       
       var enemySpawnerData = new EnemySpawnerData(_enemySpawnerConfig.Cooldown, _enemySpawnerConfig.BaseAsteroidConfig,
         _enemySpawnerConfig.UFOConfig, _enemySpawnerConfig.AsteroidSpawnProbability);
-      var enemySpawner = new EnemySpawner(enemySpawnerData, _asteroidsCollection, asteroidFactory, screenLimits);
-      
-      updater.AddListener(enemySpawner);
-      
+      var enemySpawner = new EnemySpawner(enemySpawnerData, _asteroidsCollection, asteroidFactory, screenLimits, updater);
+
       var shipInfo = new ShipInfo(ship.Data, _shipInfoView);
       shipInfo.Enable();
       
       var laserAmmunition = new LaserGunAmmunition(((LaserGun) ship.SecondaryWeapon).Data, _laserGunAmmunitionView);
       laserAmmunition.Enable();
+      
+      var score = new Score(playerData, _scoreView);
+      score.Enable();
+      
+      var gameOverWindow = new GameOverWindow(_gameOverWindowView);
+
+      var level = new Level(ship, enemySpawner, playerData, gameOverWindow);
+      level.Start();
     }
   }
 }

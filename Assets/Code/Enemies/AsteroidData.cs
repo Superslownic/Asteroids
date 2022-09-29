@@ -8,14 +8,16 @@ namespace Code.Enemies
     public readonly int Type;
     public readonly float Speed;
     public readonly int FragmentCount;
+    public readonly int Points;
     public readonly Observable<Vector2> Position;
     public readonly Observable<Quaternion> Rotation;
     public readonly Observable<Vector2> Direction;
 
-    public AsteroidData(int type, int fragmentCount, float speed)
+    public AsteroidData(int type, int fragmentCount, float speed, int points)
     {
       Type = type;
       Speed = speed;
+      Points = points;
       FragmentCount = fragmentCount;
       Position = new Observable<Vector2>();
       Rotation = new Observable<Quaternion>();

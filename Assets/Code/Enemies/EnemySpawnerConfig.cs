@@ -9,6 +9,6 @@ namespace Code.Enemies
     [field: SerializeField] public FloatRange Cooldown { get; private set; }
     [field: SerializeField] public AsteroidConfig BaseAsteroidConfig { get; private set; }
     [field: SerializeField] public UFOConfig UFOConfig { get; private set; }
-    [field: SerializeField] public int AsteroidSpawnProbability { get; private set; }
+    [field: SerializeField, Range(0, 1)] public float AsteroidSpawnProbability { get; private set; }
   }
 }

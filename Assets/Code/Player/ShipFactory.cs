@@ -35,14 +35,11 @@ namespace Code.Player
       var laserGunData = new LaserGunData(config.LaserGunConfig.LaserConfig, timerFactory.Create(), config.LaserGunConfig.Cooldown, config.LaserGunConfig.MaxShotCount, data);
       var laserGun = new LaserGun(laserGunData, laserFactory);
       
-      var ship = new Ship(data, input, screenLimits, contactTrigger, view);
+      var ship = new Ship(data, input, screenLimits, contactTrigger, view, updater);
       ship.SetPrimaryWeapon(bulletGun);
       ship.SetSecondaryWeapon(laserGun);
-      ship.Enable();
       
       view.Transformation.Construct(data);
-      
-      updater.AddListener(ship);
       
       _diContainer.Register<ITransformable>(data, DependencyKey.PlayerTransformable);
 

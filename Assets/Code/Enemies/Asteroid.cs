@@ -21,6 +21,7 @@ namespace Code.Enemies
     public int Type => _data.Type;
     public int FragmentCount => _data.FragmentCount;
     public Vector2 Position => _data.Position.Value;
+    public int Points => _data.Points;
 
     public event Action<Asteroid> OnDestroy;
 

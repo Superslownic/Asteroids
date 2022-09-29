@@ -17,4 +17,4 @@ MonoBehaviour:
     Max: 3
   <BaseAsteroidConfig>k__BackingField: {fileID: 11400000, guid: d7c7be5f7c89ff0498d1bae06c51a64a, type: 2}
   <UFOConfig>k__BackingField: {fileID: 11400000, guid: 59478b23e8707eb4b91c37dc1aadb179, type: 2}
-  <AsteroidSpawnProbability>k__BackingField: 70
+  <AsteroidSpawnProbability>k__BackingField: 0.7

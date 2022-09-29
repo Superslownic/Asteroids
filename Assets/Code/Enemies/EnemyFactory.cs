@@ -31,7 +31,7 @@ namespace Code.Enemies
         var screenLimits = _diContainer.Resolve<ScreenLimits>();
         
         var view = Object.Instantiate(config.Prefab, position, Quaternion.identity, parent);
-        var data = new AsteroidData(id, config.FragmentCount, config.MovementSpeed);
+        var data = new AsteroidData(id, config.FragmentCount, config.MovementSpeed, config.Points);
 
         asteroid = new Asteroid(data, view, screenLimits);
         
@@ -56,7 +56,7 @@ namespace Code.Enemies
         var screenLimits = _diContainer.Resolve<ScreenLimits>();
         
         var view = Object.Instantiate(config.Prefab, position, Quaternion.identity, parent);
-        var data = new UFOData(config.MovementSpeed, _diContainer.Resolve<ITransformable>(DependencyKey.PlayerTransformable));
+        var data = new UFOData(config.MovementSpeed, config.Points, _diContainer.Resolve<ITransformable>(DependencyKey.PlayerTransformable));
 
         ufo = new UFO(data, view, screenLimits);
         
