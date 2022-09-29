@@ -1,4 +1,4 @@
-﻿namespace Code
+﻿namespace Code.UI
 {
   public class Score
   {
