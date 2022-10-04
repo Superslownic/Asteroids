@@ -14,8 +14,8 @@ namespace Code.Enemies
     private readonly EnemyFactory _enemyFactory;
     private readonly ScreenLimits _screenLimits;
     private readonly Updater _updater;
-    private readonly List<Asteroid> _asteroids = new List<Asteroid>();
-    private readonly List<UFO> _ufos = new List<UFO>();
+    private readonly HashSet<Asteroid> _asteroids = new HashSet<Asteroid>();
+    private readonly HashSet<UFO> _ufos = new HashSet<UFO>();
 
     public EnemySpawner(EnemySpawnerData data, AsteroidsCollection asteroidsCollection, EnemyFactory enemyFactory,
       ScreenLimits screenLimits, Updater updater)
@@ -47,9 +47,14 @@ namespace Code.Enemies
 
     public void Clear()
     {
-      _asteroids.ForEach(DisposeAsteroid);
+      foreach (Asteroid asteroid in _asteroids)
+        DisposeAsteroid(asteroid);
+      
       _asteroids.Clear();
-      _ufos.ForEach(DisposeUFO);
+
+      foreach (UFO ufo in _ufos)
+        DisposeUFO(ufo);
+      
       _ufos.Clear();
     }
 

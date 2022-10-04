@@ -5,6 +5,6 @@ namespace Code.Common
 {
   public class Collection<T> : ScriptableObject
   {
-    [SerializeField] protected List<T> _collection;
+    [SerializeField] protected T[] _collection;
   }
 }

@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Code.Infrastructure.Recycle
 {
   public class Pool<T>
   {
-    private readonly List<T> _freeInstances = new List<T>();
+    private readonly HashSet<T> _freeInstances = new HashSet<T>();
 
     public bool TryGet(out T instance)
     {
@@ -14,8 +15,8 @@ namespace Code.Infrastructure.Recycle
         return false;
       }
       
-      instance = _freeInstances[0];
-      _freeInstances.RemoveAt(0);
+      instance = _freeInstances.First();
+      _freeInstances.Remove(instance);
       return true;
     }
 

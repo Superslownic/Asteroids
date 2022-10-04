@@ -1,4 +1,5 @@
-﻿using Code.Common;
+﻿using System;
+using Code.Common;
 using UnityEngine;
 
 namespace Code.Enemies
@@ -8,7 +9,7 @@ namespace Code.Enemies
   {
     public bool TryGetFragmentConfig(int id, out AsteroidConfig fragmentConfig)
     {
-      var index = _collection.FindIndex(x => x.GetInstanceID() == id);
+      var index = Array.FindIndex(_collection, x => x.GetInstanceID() == id);
 
       if (index == 0)
       {
