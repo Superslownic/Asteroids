@@ -2,6 +2,7 @@
 using Code.Common;
 using Code.Common.Extensions;
 using Code.Infrastructure.MonoEventProviders;
+using Code.Player.Input;
 using Code.Weapons;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace Code.Player
   {
     public readonly ShipData Data;
     
-    private readonly PlayerInput _input;
+    private readonly IInput _input;
     private readonly ScreenLimits _screenLimits;
     private readonly ContactTrigger _contactTrigger;
     private readonly ShipView _view;
@@ -20,7 +21,7 @@ namespace Code.Player
     private IWeapon _primaryWeapon;
     private IWeapon _secondaryWeapon;
 
-    public Ship(ShipData data, PlayerInput input, ScreenLimits screenLimits, ContactTrigger contactTrigger,
+    public Ship(ShipData data, IInput input, ScreenLimits screenLimits, ContactTrigger contactTrigger,
       ShipView view, Updater updater)
     {
       Data = data;

@@ -4,9 +4,11 @@ using Code.Infrastructure.DependencyInjection;
 using Code.Infrastructure.MonoEventProviders;
 using Code.Infrastructure.Timers;
 using Code.Player;
+using Code.Player.Input;
 using Code.UI;
 using Code.Weapons;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Code
 {
@@ -20,6 +22,7 @@ namespace Code
     [SerializeField] private LaserGunAmmunitionView _laserGunAmmunitionView;
     [SerializeField] private ScoreView _scoreView;
     [SerializeField] private GameOverWindowView _gameOverWindowView;
+    [SerializeField] private InputActionAsset _inputActions;
 
     private void Awake()
     {
@@ -28,7 +31,7 @@ namespace Code
       var updater = gameObject.AddComponent<Updater>();
       var fixedUpdater = gameObject.AddComponent<FixedUpdater>();
       
-      var input = new PlayerInput();
+      var input = new AdvancedInputSystem(_inputActions);
       
       var screenLimits = new ScreenLimits(_camera);
       
@@ -42,7 +45,7 @@ namespace Code
       
       diContainer.Register(updater);
       diContainer.Register(fixedUpdater);
-      diContainer.Register(input);
+      diContainer.Register<IInput>(input);
       diContainer.Register(screenLimits);
       diContainer.Register(enemyParent, DependencyKey.EnemyParent);
       diContainer.Register(timerFactory);

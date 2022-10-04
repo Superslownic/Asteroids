@@ -2,6 +2,7 @@
 using Code.Infrastructure.DependencyInjection;
 using Code.Infrastructure.MonoEventProviders;
 using Code.Infrastructure.Timers;
+using Code.Player.Input;
 using Code.Weapons;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ namespace Code.Player
 
     public Ship Create(ShipConfig config)
     {
-      var input = _diContainer.Resolve<PlayerInput>();
+      var input = _diContainer.Resolve<IInput>();
       var updater = _diContainer.Resolve<Updater>();
       var screenLimits = _diContainer.Resolve<ScreenLimits>();
       var bulletFactory = _diContainer.Resolve<BulletFactory>();
