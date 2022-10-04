@@ -1,19 +1,18 @@
 ﻿using Code.Common;
-using Code.Common.Extensions;
 using UnityEngine;
 
 namespace Code.Weapons
 {
   public class LaserGun : IWeapon
   {
-    public readonly LaserGunData Data;
+    public readonly LaserGunModel Model;
     
     private readonly LaserFactory _laserFactory;
     private readonly RaycastHit2D[] _buffer;
 
-    public LaserGun(LaserGunData data, LaserFactory laserFactory)
+    public LaserGun(LaserGunModel model, LaserFactory laserFactory)
     {
-      Data = data;
+      Model = model;
       _laserFactory = laserFactory;
       _buffer = new RaycastHit2D[10];
       RunCooldown();
@@ -21,22 +20,22 @@ namespace Code.Weapons
     
     public bool TryShoot()
     {
-      if (Data.ShotCount.Value == 0)
+      if (Model.ShotCount.Value == 0)
         return false;
       
-      var laser = _laserFactory.Create(Data.LaserConfig, Data.LaserAnchor);
+      var laser = _laserFactory.Create(Model.LaserConfig, Model.LaserAnchor);
       laser.OnDestroy += HandleLaserDestroy;
 
       int targetCount =
-        Physics2D.RaycastNonAlloc(Data.LaserAnchor.Position.Value, Data.LaserAnchor.Forward() * Data.LaserConfig.Distance, _buffer);
+        Physics2D.RaycastNonAlloc(Model.LaserAnchor.Position.Value, Model.LaserAnchor.Forward * Model.LaserConfig.Distance, _buffer);
       
       for (int i = 0; i < targetCount; i++)
         if(_buffer[i].transform.TryGetComponent(out IContactHandler contactHandler))
           contactHandler.OnHit();
 
-      Data.ShotCount.Value--;
+      Model.ShotCount.Value--;
       
-      if (Data.CooldownTimer.IsOver)
+      if (Model.CooldownTimer.IsOver)
         RunCooldown();
       
       return true;
@@ -50,14 +49,14 @@ namespace Code.Weapons
 
     private void RunCooldown()
     {
-      Data.CooldownTimer.Run(Data.CooldownTime, AddLaser);
+      Model.CooldownTimer.Run(Model.CooldownTime, AddLaser);
     }
 
     private void AddLaser()
     {
-      Data.ShotCount.Value++;
+      Model.ShotCount.Value++;
 
-      if (Data.ShotCount.Value < Data.MaxShotCount)
+      if (Model.ShotCount.Value < Model.MaxShotCount)
         RunCooldown();
     }
   }

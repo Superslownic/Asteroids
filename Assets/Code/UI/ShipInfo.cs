@@ -6,16 +6,16 @@ namespace Code.UI
 {
   public class ShipInfo
   {
-    private readonly ShipData _shipData;
+    private readonly ShipModel _shipModel;
     private readonly ShipInfoView _view;
     private readonly string _positionLabelFormat;
     private readonly string _speedLabelFormat;
     private readonly string _angleLabelFormat;
     private readonly CultureInfo _cultureInfo;
 
-    public ShipInfo(ShipData shipData, ShipInfoView view)
+    public ShipInfo(ShipModel shipModel, ShipInfoView view)
     {
-      _shipData = shipData;
+      _shipModel = shipModel;
       _view = view;
       
       _positionLabelFormat = _view.PositionLabel.text;
@@ -26,16 +26,16 @@ namespace Code.UI
 
     public void Enable()
     {
-      _shipData.Position.OnChanged += HandlePositionChanged;
-      _shipData.Velocity.OnChanged += HandleVelocityChanged;
-      _shipData.Rotation.OnChanged += HandleRotationChanged;
+      _shipModel.Transformation.Position.OnChanged += HandlePositionChanged;
+      _shipModel.Transformation.Rotation.OnChanged += HandleRotationChanged;
+      _shipModel.Velocity.OnChanged += HandleVelocityChanged;
     }
     
     public void Disable()
     {
-      _shipData.Position.OnChanged -= HandlePositionChanged;
-      _shipData.Velocity.OnChanged -= HandleVelocityChanged;
-      _shipData.Rotation.OnChanged -= HandleRotationChanged;
+      _shipModel.Transformation.Position.OnChanged -= HandlePositionChanged;
+      _shipModel.Transformation.Rotation.OnChanged -= HandleRotationChanged;
+      _shipModel.Velocity.OnChanged -= HandleVelocityChanged;
     }
 
     private void HandlePositionChanged(Vector2 position)
@@ -50,7 +50,7 @@ namespace Code.UI
 
     private void HandleRotationChanged(Quaternion rotation)
     {
-      float angle = Quaternion.Angle(_shipData.Rotation.Value, Quaternion.LookRotation(Vector3.up, Vector3.forward));
+      float angle = Quaternion.Angle(_shipModel.Transformation.Rotation.Value, Quaternion.LookRotation(Vector3.up, Vector3.forward));
       _view.AngleLabel.text = string.Format(_angleLabelFormat, angle.ToString("F0", _cultureInfo));
     }
   }

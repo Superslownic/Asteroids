@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ContactProxy>k__BackingField: {fileID: 7188883598970538443}
-  <Transformation>k__BackingField: {fileID: 4957382263299846736}
+  <Transformable>k__BackingField: {fileID: 4957382263299846736}
   <Activator>k__BackingField: {fileID: 5468465953976144231}
 --- !u!114 &7188883598970538443
 MonoBehaviour:

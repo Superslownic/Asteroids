@@ -27,12 +27,18 @@ namespace Code.Weapons
         var timerFactory = _diContainer.Resolve<TimerFactory>();
         
         var view = Object.Instantiate(config.Prefab, position, Quaternion.identity, _projectileParent);
-        var data = new BulletData(config.MovementSpeed, timerFactory.Create());
+        var transformation = new Transformation(position, rotation);
+        var movement = new StraightMovement(transformation)
+        {
+          Direction = direction,
+          Speed = config.MovementSpeed
+        };
         var contactTrigger = new ContactTrigger(view.Collider, config.ContactFilter, 1);
-
-        bullet = new Bullet(data, view, contactTrigger);
+        var model = new BulletModel(transformation, timerFactory.Create(), movement, contactTrigger);
         
-        view.Transformation.Construct(data);
+        bullet = new Bullet(model, view);
+        
+        view.Transformable.Construct(transformation);
       }
 
       bullet.SetPosition(position);

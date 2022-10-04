@@ -5,12 +5,12 @@ namespace Code.Weapons
 {
   public class Laser
   {
-    private readonly LaserData _data;
+    private readonly LaserModel _model;
     private readonly LaserView _view;
 
-    public Laser(LaserData data, LaserView view)
+    public Laser(LaserModel model, LaserView view)
     {
-      _data = data;
+      _model = model;
       _view = view;
     }
 
@@ -28,12 +28,12 @@ namespace Code.Weapons
     
     public void SetPosition(Vector2 value)
     {
-      _view.Transformation.SetPosition(value);
+      _model.Transformation.Position.Value = value;
     }
 
     public void SetRotation(Quaternion value)
     {
-      _view.Transformation.SetRotation(value);
+      _model.Transformation.Rotation.Value = value;
     }
     
     public void SetDistance(float value)
@@ -45,7 +45,7 @@ namespace Code.Weapons
 
     public void StartDestroyTimer(float time)
     {
-      _data.DestroyTimer.Run(time, Destroy);
+      _model.DestroyTimer.Run(time, Destroy);
     }
 
     private void Destroy()

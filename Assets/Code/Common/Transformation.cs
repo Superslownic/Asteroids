@@ -2,47 +2,17 @@
 
 namespace Code.Common
 {
-  public class Transformation : MonoBehaviour
+  public class Transformation
   {
-    private ITransformable _transformable;
-    
-    public void Construct(ITransformable transformable)
+    public Observable<Vector2> Position { get; }
+    public Observable<Quaternion> Rotation { get; }
+
+    public Transformation(Vector2 initialPosition, Quaternion initialRotation)
     {
-      _transformable = transformable;
-      
-      _transformable.Position.OnChanged += SetPosition;
-      _transformable.Rotation.OnChanged += SetRotation;
-      
-      SetPosition(_transformable.Position.Value);
-      SetRotation(_transformable.Rotation.Value);
+      Position = new Observable<Vector2>(initialPosition);
+      Rotation = new Observable<Quaternion>(initialRotation);
     }
 
-    private void OnEnable()
-    {
-      if(_transformable == null)
-        return;
-      
-      SetPosition(_transformable.Position.Value);
-      SetRotation(_transformable.Rotation.Value);
-    }
-
-    private void OnDestroy()
-    {
-      if(_transformable == null)
-        return;
-      
-      _transformable.Position.OnChanged -= SetPosition;
-      _transformable.Rotation.OnChanged -= SetRotation;
-    }
-
-    public void SetPosition(Vector2 value)
-    {
-      transform.position = value;
-    }
-    
-    public void SetRotation(Quaternion value)
-    {
-      transform.rotation = value;
-    }
+    public Vector2 Forward => Rotation.Value * Vector2.up;
   }
 }

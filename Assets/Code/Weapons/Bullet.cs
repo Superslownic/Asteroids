@@ -7,15 +7,13 @@ namespace Code.Weapons
 {
   public class Bullet : IUpdateListener
   {
-    private readonly BulletData _data;
+    private readonly BulletModel _model;
     private readonly BulletView _view;
-    private readonly ContactTrigger _contactTrigger;
 
-    public Bullet(BulletData data, BulletView view, ContactTrigger contactTrigger)
+    public Bullet(BulletModel model, BulletView view)
     {
-      _data = data;
+      _model = model;
       _view = view;
-      _contactTrigger = contactTrigger;
     }
 
     public event Action<Bullet> OnDestroy;
@@ -32,29 +30,29 @@ namespace Code.Weapons
 
     public void SetPosition(Vector2 value)
     {
-      _data.Position.Value = value;
+      _model.Transformation.Position.Value = value;
     }
     
     public void SetRotation(Quaternion value)
     {
-      _data.Rotation.Value = value;
+      _model.Transformation.Rotation.Value = value;
     }
     
     public void SetMovementDirection(Vector2 value)
     {
-      _data.Direction.Value = value;
+      _model.Movement.Direction = value;
     }
     
     public void StartDestroyTimer(float cooldown)
     {
-      _data.DisableTimer.Run(cooldown, Destroy);
+      _model.DisableTimer.Run(cooldown, Destroy);
     }
 
     public void Update(float deltaTime)
     {
-      _data.Position.Value += _data.Speed * deltaTime * _data.Direction.Value;
+      _model.Movement.Execute(deltaTime);
       
-      if (_contactTrigger.HasContact())
+      if (_model.ContactTrigger.HasContact())
         Destroy();
     }
 

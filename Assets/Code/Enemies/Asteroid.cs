@@ -7,21 +7,19 @@ namespace Code.Enemies
 {
   public class Asteroid : IUpdateListener, IContactHandler
   {
-    private readonly AsteroidData _data;
+    private readonly AsteroidModel _model;
     private readonly AsteroidView _view;
-    private readonly ScreenLimits _screenLimits;
 
-    public Asteroid(AsteroidData data, AsteroidView view, ScreenLimits screenLimits)
+    public Asteroid(AsteroidModel model, AsteroidView view)
     {
-      _data = data;
+      _model = model;
       _view = view;
-      _screenLimits = screenLimits;
     }
 
-    public int Type => _data.Type;
-    public int FragmentCount => _data.FragmentCount;
-    public Vector2 Position => _data.Position.Value;
-    public int Points => _data.Points;
+    public int Type => _model.Type;
+    public int FragmentCount => _model.FragmentCount;
+    public Vector2 Position => _model.Transformation.Position.Value;
+    public int Points => _model.Points;
 
     public event Action<Asteroid> OnDestroy;
 
@@ -37,18 +35,18 @@ namespace Code.Enemies
     
     public void SetPosition(Vector2 value)
     {
-      _data.Position.Value = value;
+      _model.Transformation.Position.Value = value;
     }
 
     public void SetDirection(Vector2 value)
     {
-      _data.Direction.Value = value;
+      _model.Movement.Direction = value;
     }
 
     public void Update(float deltaTime)
     {
-      _data.Position.Value += _data.Speed * deltaTime * _data.Direction.Value;
-      _data.Position.Value = _screenLimits.Wrap(_data.Position.Value);
+      _model.Movement.Execute(deltaTime);
+      _model.Wrapper.Execute();
     }
     
     public void OnHit()

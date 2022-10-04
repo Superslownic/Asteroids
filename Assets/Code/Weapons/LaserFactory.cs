@@ -18,15 +18,19 @@ namespace Code.Weapons
       _projectileParent = projectileParent;
     }
     
-    public Laser Create(LaserConfig config, ITransformable anchor)
+    public Laser Create(LaserConfig config, Transformation anchor)
     {
       if (_pool.TryGet(out Laser laser) == false)
       {
         var timerFactory = _diContainer.Resolve<TimerFactory>();
 
         var view = Object.Instantiate(config.Prefab, _projectileParent);
-        var data = new LaserData(timerFactory.Create());
-        laser = new Laser(data, view);
+        var transformation = new Transformation(anchor.Position.Value, anchor.Rotation.Value);
+        var model = new LaserModel(transformation, timerFactory.Create());
+        
+        laser = new Laser(model, view);
+        
+        view.Transformable.Construct(transformation);
       }
 
       laser.SetPosition(anchor.Position.Value);

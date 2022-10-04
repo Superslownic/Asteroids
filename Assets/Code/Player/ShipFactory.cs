@@ -27,22 +27,29 @@ namespace Code.Player
       var timerFactory = _diContainer.Resolve<TimerFactory>();
 
       var view = Object.Instantiate(config.Prefab);
-      var data = new ShipData(config.Acceleration, config.Deceleration, config.MaxSpeed, config.RotationSpeed);
+      var transformation = new Transformation(Vector2.zero, Quaternion.identity);
+      var wrapper = new PositionWrapper(transformation, screenLimits);
       var contactTrigger = new ContactTrigger(view.Collider, config.ContactFilter, 1);
+
+      var bulletGunModel = new BulletGunModel(config.BulletGunConfig.Cooldown, config.BulletGunConfig.BulletConfig, transformation);
+      var bulletGun = new BulletGun(bulletGunModel, bulletFactory);
       
-      var bulletGunData = new BulletGunData(config.BulletGunConfig.Cooldown, config.BulletGunConfig.BulletConfig, data);
-      var bulletGun = new BulletGun(bulletGunData, bulletFactory);
+      var laserGunModel = new LaserGunModel(config.LaserGunConfig.LaserConfig, timerFactory.Create(),
+        config.LaserGunConfig.Cooldown, config.LaserGunConfig.MaxShotCount, transformation);
+      var laserGun = new LaserGun(laserGunModel, laserFactory);
       
-      var laserGunData = new LaserGunData(config.LaserGunConfig.LaserConfig, timerFactory.Create(), config.LaserGunConfig.Cooldown, config.LaserGunConfig.MaxShotCount, data);
-      var laserGun = new LaserGun(laserGunData, laserFactory);
+      var model = new ShipModel(input, transformation, wrapper, contactTrigger, updater, config.Acceleration,
+        config.Deceleration, config.MaxSpeed, config.RotationSpeed);
+      var ship = new Ship(model, view);
       
-      var ship = new Ship(data, input, screenLimits, contactTrigger, view, updater);
       ship.SetPrimaryWeapon(bulletGun);
       ship.SetSecondaryWeapon(laserGun);
       
-      view.Transformation.Construct(data);
+      view.Transformable.Construct(transformation);
       
-      _diContainer.Register<ITransformable>(data, DependencyKey.PlayerTransformable);
+      _diContainer.Register(transformation, DependencyKey.PlayerTransformation);
+      _diContainer.Register(model);
+      _diContainer.Register(laserGunModel);
 
       return ship;
     }

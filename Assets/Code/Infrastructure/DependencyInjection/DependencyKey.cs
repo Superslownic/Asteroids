@@ -3,6 +3,6 @@
   public class DependencyKey
   {
     public const string EnemyParent = "EnemyParent";
-    public const string PlayerTransformable = "PlayerTransformable";
+    public const string PlayerTransformation = "PlayerTransformation";
   }
 }

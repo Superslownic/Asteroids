@@ -4,13 +4,13 @@ namespace Code.UI
 {
   public class LaserGunAmmunition
   {
-    private readonly LaserGunData _laserData;
+    private readonly LaserGunModel _laserGunModel;
     private readonly LaserGunAmmunitionView _view;
     private readonly string _laserCountFormat;
 
-    public LaserGunAmmunition(LaserGunData laserData, LaserGunAmmunitionView view)
+    public LaserGunAmmunition(LaserGunModel laserGunModel, LaserGunAmmunitionView view)
     {
-      _laserData = laserData;
+      _laserGunModel = laserGunModel;
       _view = view;
       _laserCountFormat = _view.Label.text;
     }
@@ -18,26 +18,26 @@ namespace Code.UI
     public void Enable()
     {
       
-      _laserData.CooldownTimer.RemainingTime.OnChanged += UpdateFill;
-      _laserData.ShotCount.OnChanged += UpdateLabel;
+      _laserGunModel.CooldownTimer.RemainingTime.OnChanged += UpdateFill;
+      _laserGunModel.ShotCount.OnChanged += UpdateLabel;
       
-      UpdateFill(_laserData.CooldownTimer.RemainingTime.Value);
-      UpdateLabel(_laserData.ShotCount.Value);
+      UpdateFill(_laserGunModel.CooldownTimer.RemainingTime.Value);
+      UpdateLabel(_laserGunModel.ShotCount.Value);
     }
 
     public void Disable()
     {
-      _laserData.CooldownTimer.RemainingTime.OnChanged -= UpdateFill;
+      _laserGunModel.CooldownTimer.RemainingTime.OnChanged -= UpdateFill;
     }
 
     private void UpdateFill(float remainingTime)
     {
-      _view.Fill.fillAmount = 1 - remainingTime / _laserData.CooldownTime;
+      _view.Fill.fillAmount = 1 - remainingTime / _laserGunModel.CooldownTime;
     }
 
     private void UpdateLabel(int shotCount)
     {
-      _view.Label.text = string.Format(_laserCountFormat, shotCount, _laserData.MaxShotCount);
+      _view.Label.text = string.Format(_laserCountFormat, shotCount, _laserGunModel.MaxShotCount);
     }
   }
 }

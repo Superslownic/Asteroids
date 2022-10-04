@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24d0410aaa464d29a8372d76dd597e73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Transformation>k__BackingField: {fileID: 2658691212250396521}
+  <Transformable>k__BackingField: {fileID: 2658691212250396521}
   <Activator>k__BackingField: {fileID: 3695535021304517186}
   <Collider>k__BackingField: {fileID: 2874947480698039556}
 --- !u!114 &2658691212250396521

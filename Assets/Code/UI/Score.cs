@@ -1,4 +1,6 @@
-﻿namespace Code.UI
+﻿using Code.Player;
+
+namespace Code.UI
 {
   public class Score
   {

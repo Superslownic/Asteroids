@@ -5,7 +5,7 @@ namespace Code.Weapons
 {
   public class LaserView : MonoBehaviour
   {
-    [field: SerializeField] public Transformation Transformation { get; private set; }
+    [field: SerializeField] public Transformable Transformable { get; private set; }
     [field: SerializeField] public Activator Activator { get; private set; }
   }
 }

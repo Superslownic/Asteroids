@@ -31,12 +31,20 @@ namespace Code.Enemies
         var screenLimits = _diContainer.Resolve<ScreenLimits>();
         
         var view = Object.Instantiate(config.Prefab, position, Quaternion.identity, parent);
-        var data = new AsteroidData(id, config.FragmentCount, config.MovementSpeed, config.Points);
+        var transformation = new Transformation(position, Quaternion.identity);
+        var movement = new StraightMovement(transformation)
+        {
+          Direction = direction,
+          Speed = config.MovementSpeed
+        };
+        var wrapper = new PositionWrapper(transformation, screenLimits);
+        var model = new AsteroidModel(transformation, movement, wrapper, id, config.FragmentCount, config.MovementSpeed,
+          config.Points);
 
-        asteroid = new Asteroid(data, view, screenLimits);
+        asteroid = new Asteroid(model, view);
         
         view.ContactProxy.Construct(asteroid);
-        view.Transformation.Construct(data);
+        view.Transformable.Construct(transformation);
       }
 
       asteroid.SetPosition(position);
@@ -54,14 +62,21 @@ namespace Code.Enemies
       {
         var parent = _diContainer.Resolve<Transform>(DependencyKey.EnemyParent);
         var screenLimits = _diContainer.Resolve<ScreenLimits>();
+        var target = _diContainer.Resolve<Transformation>(DependencyKey.PlayerTransformation);
         
         var view = Object.Instantiate(config.Prefab, position, Quaternion.identity, parent);
-        var data = new UFOData(config.MovementSpeed, config.Points, _diContainer.Resolve<ITransformable>(DependencyKey.PlayerTransformable));
+        var transformation = new Transformation(position, Quaternion.identity);
+        var movement = new StraightMovement(transformation)
+        {
+          Speed = config.MovementSpeed
+        };
+        var wrapper = new PositionWrapper(transformation, screenLimits);
+        var model = new UFOModel(transformation, movement, wrapper, target, config.Points);
 
-        ufo = new UFO(data, view, screenLimits);
+        ufo = new UFO(model, view);
         
         view.ContactProxy.Construct(ufo);
-        view.Transformation.Construct(data);
+        view.Transformable.Construct(transformation);
       }
 
       ufo.SetPosition(position);

@@ -1,6 +1,6 @@
 ﻿using Code.Common;
 
-namespace Code
+namespace Code.Player
 {
   public class PlayerData
   {

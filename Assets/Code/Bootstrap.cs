@@ -16,13 +16,13 @@ namespace Code
   {
     [SerializeField] private Camera _camera;
     [SerializeField] private ShipConfig _shipConfig;
+    [SerializeField] private InputActionAsset _inputActions;
     [SerializeField] private AsteroidsCollection _asteroidsCollection;
     [SerializeField] private EnemySpawnerConfig _enemySpawnerConfig;
     [SerializeField] private ShipInfoView _shipInfoView;
     [SerializeField] private LaserGunAmmunitionView _laserGunAmmunitionView;
     [SerializeField] private ScoreView _scoreView;
     [SerializeField] private GameOverWindowView _gameOverWindowView;
-    [SerializeField] private InputActionAsset _inputActions;
 
     private void Awake()
     {
@@ -62,10 +62,10 @@ namespace Code
         _enemySpawnerConfig.UFOConfig, _enemySpawnerConfig.AsteroidSpawnProbability);
       var enemySpawner = new EnemySpawner(enemySpawnerData, _asteroidsCollection, asteroidFactory, screenLimits, updater);
 
-      var shipInfo = new ShipInfo(ship.Data, _shipInfoView);
+      var shipInfo = new ShipInfo(diContainer.Resolve<ShipModel>(), _shipInfoView);
       shipInfo.Enable();
       
-      var laserAmmunition = new LaserGunAmmunition(((LaserGun) ship.SecondaryWeapon).Data, _laserGunAmmunitionView);
+      var laserAmmunition = new LaserGunAmmunition(diContainer.Resolve<LaserGunModel>(), _laserGunAmmunitionView);
       laserAmmunition.Enable();
       
       var score = new Score(playerData, _scoreView);

@@ -3,14 +3,14 @@ using Code.Infrastructure.Timers;
 
 namespace Code.Weapons
 {
-  public class BulletGunData
+  public class BulletGunModel
   {
     public readonly float CooldownTime;
     public readonly BulletConfig BulletConfig;
-    public readonly ITransformable BulletAnchor;
+    public readonly Transformation BulletAnchor;
     public readonly Countdown Cooldown;
 
-    public BulletGunData(float cooldownTime, BulletConfig bulletConfig, ITransformable bulletAnchor)
+    public BulletGunModel(float cooldownTime, BulletConfig bulletConfig, Transformation bulletAnchor)
     {
       CooldownTime = cooldownTime;
       BulletConfig = bulletConfig;

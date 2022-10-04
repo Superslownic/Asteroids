@@ -3,16 +3,17 @@ using Code.Infrastructure.Timers;
 
 namespace Code.Weapons
 {
-  public class LaserGunData
+  public class LaserGunModel
   {
     public readonly LaserConfig LaserConfig;
     public readonly Timer CooldownTimer;
     public readonly float CooldownTime;
     public readonly int MaxShotCount;
     public readonly Observable<int> ShotCount;
-    public readonly ITransformable LaserAnchor;
+    public readonly Transformation LaserAnchor;
 
-    public LaserGunData(LaserConfig laserConfig, Timer cooldownTimer, float cooldownTime, int maxShotCount, ITransformable laserAnchor)
+    public LaserGunModel(LaserConfig laserConfig, Timer cooldownTimer, float cooldownTime, int maxShotCount,
+      Transformation laserAnchor)
     {
       LaserConfig = laserConfig;
       CooldownTimer = cooldownTimer;

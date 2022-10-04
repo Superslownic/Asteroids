@@ -7,19 +7,17 @@ namespace Code.Enemies
 {
   public class UFO : IUpdateListener, IContactHandler
   {
-    private readonly UFOData _data;
+    private readonly UFOModel _model;
     private readonly UFOView _view;
-    private readonly ScreenLimits _screenLimits;
 
-    public UFO(UFOData data, UFOView view, ScreenLimits screenLimits)
+    public UFO(UFOModel model, UFOView view)
     {
-      _data = data;
+      _model = model;
       _view = view;
-      _screenLimits = screenLimits;
     }
 
     public event Action<UFO> OnDestroy;
-    public int Points => _data.Points;
+    public int Points => _model.Points;
 
     public void Enable()
     {
@@ -33,15 +31,15 @@ namespace Code.Enemies
     
     public void SetPosition(Vector2 value)
     {
-      _data.Position.Value = value;
+      _model.Transformation.Position.Value = value;
     }
 
     public void Update(float deltaTime)
     {
-      Vector2 direction = (_data.Target.Position.Value - _data.Position.Value).normalized;
-      _data.Position.Value += _data.Speed * deltaTime * direction;
-      _data.Position.Value = _screenLimits.Wrap(_data.Position.Value);
-      _data.Rotation.Value = Quaternion.LookRotation(Vector3.forward, direction);
+      _model.Movement.Direction = (_model.Target.Position.Value - _model.Transformation.Position.Value).normalized;
+      _model.Movement.Execute(deltaTime);
+      _model.Wrapper.Execute();
+      _model.Transformation.Rotation.Value = Quaternion.LookRotation(Vector3.forward, _model.Movement.Direction);
     }
     
     public void OnHit()

@@ -1,8 +1,5 @@
 ﻿using System;
-using Code.Common;
-using Code.Common.Extensions;
 using Code.Infrastructure.MonoEventProviders;
-using Code.Player.Input;
 using Code.Weapons;
 using UnityEngine;
 
@@ -10,94 +7,81 @@ namespace Code.Player
 {
   public class Ship : IUpdateListener
   {
-    public readonly ShipData Data;
-    
-    private readonly IInput _input;
-    private readonly ScreenLimits _screenLimits;
-    private readonly ContactTrigger _contactTrigger;
+    private readonly ShipModel _model;
     private readonly ShipView _view;
-    private readonly Updater _updater;
-
-    private IWeapon _primaryWeapon;
-    private IWeapon _secondaryWeapon;
-
-    public Ship(ShipData data, IInput input, ScreenLimits screenLimits, ContactTrigger contactTrigger,
-      ShipView view, Updater updater)
+    
+    public Ship(ShipModel model, ShipView view)
     {
-      Data = data;
+      _model = model;
       _view = view;
-      _updater = updater;
-      _input = input;
-      _screenLimits = screenLimits;
-      _contactTrigger = contactTrigger;
     }
 
     public event Action OnDestroy;
 
-    public IWeapon SecondaryWeapon => _secondaryWeapon;
+    public IWeapon SecondaryWeapon => _model.SecondaryWeapon;
 
     public void Enable()
     {
-      _updater.AddListener(this);
+      _model.Updater.AddListener(this);
       _view.Activator.Enable();
     }
     
     public void Disable()
     {
-      _updater.RemoveListener(this);
+      _model.Updater.RemoveListener(this);
       _view.Activator.Disable();
     }
 
     public void SetPosition(Vector2 value)
     {
-      Data.Position.Value = value;
+      _model.Transformation.Position.Value = value;
     }
 
     public void SetVelocity(Vector2 value)
     {
-      Data.Velocity.Value = value;
+      _model.Velocity.Value = value;
     }
     
     public void SetRotation(Quaternion value)
     {
-      Data.Rotation.Value = value;
+      _model.Transformation.Rotation.Value = value;
     }
 
     public void SetPrimaryWeapon(IWeapon weapon)
     {
-      _primaryWeapon = weapon;
+      _model.PrimaryWeapon = weapon;
     }
     
     public void SetSecondaryWeapon(IWeapon weapon)
     {
-      _secondaryWeapon = weapon;
+      _model.SecondaryWeapon = weapon;
     }
 
     public void Update(float deltaTime)
     {
-      Data.Rotation.Value *=
-        Quaternion.Euler(0f, 0f, Data.RotationSpeed * -_input.Rotation * deltaTime * Mathf.Rad2Deg);
+      _model.Transformation.Rotation.Value *=
+        Quaternion.Euler(0f, 0f, _model.RotationSpeed * -_model.Input.Rotation * deltaTime * Mathf.Rad2Deg);
       
-      Data.Velocity.Value += _input.Movement > 0
-        ? Data.Acceleration * deltaTime * Data.Forward()
-        : Data.Deceleration * deltaTime * -Data.Velocity.Value;
+      _model.Velocity.Value += _model.Input.Movement > 0
+        ? _model.Acceleration * deltaTime * _model.Transformation.Forward
+        : _model.Deceleration * deltaTime * -_model.Velocity.Value;
 
-      Data.Velocity.Value = Vector3.ClampMagnitude(Data.Velocity.Value, Data.MaxSpeed);
+      _model.Velocity.Value = Vector3.ClampMagnitude(_model.Velocity.Value, _model.MaxSpeed);
       
-      Data.Position.Value += Data.Velocity.Value * deltaTime;
-      Data.Position.Value = _screenLimits.Wrap(Data.Position.Value);
+      _model.Transformation.Position.Value += _model.Velocity.Value * deltaTime;
+      _model.Wrapper.Execute();
       
-      if(_contactTrigger.HasContact())
+      if(_model.ContactTrigger.HasContact())
       {
         OnDestroy?.Invoke();
         return;
       }
 
-      if (_input.PrimaryAttack)
-        _primaryWeapon.TryShoot();
+      if (_model.Input.PrimaryAttack)
+        _model.PrimaryWeapon.TryShoot();
 
-      if (_input.SecondaryAttack)
-        _secondaryWeapon.TryShoot();
+      if (_model.Input.SecondaryAttack)
+        _model.SecondaryWeapon.TryShoot();
     }
   }
 }
